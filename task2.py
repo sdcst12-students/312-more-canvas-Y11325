@@ -18,7 +18,9 @@ w.geometry("925x475")
 w.attributes('-topmost',True)
 c = tk.Canvas(height=475,width=900,bg="#ffdddd")
 c.pack()
-f = open('map1.txt')
 
+f = open('map2.txt')
+map2 = f.readlines()
+print(map2[0])
 
 w.mainloop()
