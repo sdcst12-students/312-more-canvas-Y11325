@@ -6,26 +6,47 @@
 # Note: You can find sprite sheets or tile sheets on the internet to help you!
 
 import tkinter as tk
+from PIL import Image,ImageTk
 
 w = tk.Tk()
-w.geometry("600x400")
-w.title("sample")
+w.title("task3")
+w.attributes("-topmost",True)
+w.geometry("500x500")
 
-c = tk.Canvas(width=550,height=450,background="#cccccc",bd="2")
+c = tk.Canvas(width=480,height=480)
 c.pack()
 
+x = 0
+y = 0
+i = 0
 
-rec = c.create_rectangle(50,50,80,80,fill="#aa0000")
+def getSprite(x,y):
+    img = Image.open("assets/catspritesheet.png").convert("RGBA")
+    xi = x*78
+    yi = y*92
+    img2 = img.crop([xi,yi,xi+72,yi+92])
+    return ImageTk.PhotoImage(img2)    
 
+def catUpdate():
+    global i,c,img,w,cat
+    #print(len(cat))
+    i+=1
+    i%=len(cat)
+    c.itemconfig(img,image=cat[i])
+    #print(i)
+    w.after(100,catUpdate)
 
-def keyPress(e):
-    print(e)
-    print(e.keycode, e.keysym, e.x, e.y)
-    
-w.bind("<Left>",keyPress)
-w.bind("<Right>",keyPress)
-w.bind("<Up>",keyPress)
-w.bind("<Down>",keyPress)
+image = tk.PhotoImage(file="assets/catspritesheet.png")
+
+cat=[]
+for i in range(3):
+    firstX = i + 4*x 
+    cat.append( getSprite(firstX,y))
+cat.append( getSprite(firstX+1,y))
+
+img = c.create_image(72,92,image=cat[i])
+
+w.after(100,catUpdate)
 
 
 w.mainloop()
